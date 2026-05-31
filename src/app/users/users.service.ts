@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserDTO } from '../../dtos/user-dto';
+import { CreateUserDto } from '../../dtos/create-user-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -12,5 +13,17 @@ export class UsersService {
 
   getAll() {
     return this.http.get<UserDTO[]>(this.baseUrl);
+  }
+
+  create(dto: CreateUserDto) {
+    return this.http.post<CreateUserDto>(this.baseUrl, dto);
+  }
+
+  update(id: number, dto: CreateUserDto) {
+    return this.http.put<CreateUserDto>(`${this.baseUrl}/${id}`, dto);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

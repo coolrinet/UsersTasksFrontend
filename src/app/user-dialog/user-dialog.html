@@ -1,0 +1,51 @@
+<h2 matDialogTitle>
+  @if (isEditing) {
+    Редактирование пользователя
+  } @else {
+    Создание пользователя
+  }
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <mat-form-field>
+      <mat-label>
+        Имя пользователя
+      </mat-label>
+      <input matInput type="text" placeholder="Введите имя" formControlName="name"/>
+      @if (userForm.controls.name.invalid && (userForm.controls.name.touched || userForm.controls.name.dirty)) {
+        <mat-error>
+          @if (userForm.controls.name.hasError('required')) {
+            Имя обязательно
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>
+        Email
+      </mat-label>
+      <input matInput type="email" placeholder="Введите email" formControlName="email"/>
+      @if (userForm.controls.email.invalid && (userForm.controls.email.touched || userForm.controls.email.dirty)) {
+        <mat-error>
+          @if (userForm.controls.email.hasError('required')) {
+            Email обязателен
+          }
+          @if (userForm.controls.email.hasError('email')) {
+            Неверный формат email
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-dialog-actions>
+      <button matButton="filled" type="submit" [disabled]="!userForm.valid">
+        Сохранить
+      </button>
+      <button matButton="outlined" type="button" mat-dialog-close>
+        Отменить
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>
