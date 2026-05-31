@@ -28,3 +28,8 @@
     border-right: 1px solid currentColor;
   }
 }
+
+.main-actions {
+  display: flex;
+  justify-content: space-between;
+}

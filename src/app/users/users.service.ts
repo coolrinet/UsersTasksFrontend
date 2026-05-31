@@ -11,8 +11,12 @@ export class UsersService {
 
   private http = inject(HttpClient);
 
-  getAll() {
-    return this.http.get<UserDTO[]>(this.baseUrl);
+  getAll(hasTasks?: boolean) {
+    return this.http.get<UserDTO[]>(this.baseUrl, {
+      params: {
+        hasTasks: hasTasks ?? '',
+      },
+    });
   }
 
   create(dto: CreateUserDto) {

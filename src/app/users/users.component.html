@@ -51,7 +51,12 @@
     </div>
   }
 
-  <button (click)="onCreateUserClick()" [disabled]="isLoading()" class="add-button" matButton="filled">Добавить
-    пользователя
-  </button>
+  <div class="main-actions">
+    <mat-slide-toggle (change)="onFilterChange()" [checked]="withoutTasks()">Показать пользователей без задач
+    </mat-slide-toggle>
+
+    <button (click)="onCreateUserClick()" [disabled]="isLoading()" class="add-button" matButton="filled">Добавить
+      пользователя
+    </button>
+  </div>
 </div>

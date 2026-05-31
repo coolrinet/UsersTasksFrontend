@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { UsersService } from './users.service';
 import {
   MatCell,
@@ -18,6 +18,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialog } from '../user-dialog/user-dialog';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-users',
@@ -36,6 +37,7 @@ import { UserDialog } from '../user-dialog/user-dialog';
     MatButton,
     MatIconButton,
     MatIcon,
+    MatSlideToggle,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
@@ -43,12 +45,23 @@ import { UserDialog } from '../user-dialog/user-dialog';
 export class UsersComponent {
   displayedColumns: string[] = ['name', 'email', 'actions'];
   isLoading = signal(false);
+  withoutTasks = signal(false);
   users: UserDTO[] = [];
   private usersService = inject(UsersService);
   private dialog = inject(MatDialog);
 
-  ngOnInit() {
-    this.fetchUsers();
+  constructor() {
+    effect(() => {
+      if (this.withoutTasks()) {
+        this.fetchUsers(!this.withoutTasks());
+      } else {
+        this.fetchUsers();
+      }
+    });
+  }
+
+  onFilterChange() {
+    this.withoutTasks.update((value) => !value);
   }
 
   onCreateUserClick() {
@@ -86,10 +99,10 @@ export class UsersComponent {
     });
   }
 
-  private fetchUsers() {
+  private fetchUsers(hasTasks?: boolean) {
     this.isLoading.set(true);
 
-    this.usersService.getAll().subscribe({
+    this.usersService.getAll(hasTasks).subscribe({
       next: (users) => {
         this.users = users;
         this.isLoading.set(false);
