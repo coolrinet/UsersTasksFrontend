@@ -1,0 +1,75 @@
+<h2 matDialogTitle>
+  @if (isEditing) {
+    Редактирование задачи
+  } @else {
+    Создание задачи
+  }
+</h2>
+
+<mat-dialog-content>
+  <form (ngSubmit)="onSubmit()" [formGroup]="taskForm" class="user-form">
+    <mat-form-field>
+      <mat-label>
+        Название задачи
+      </mat-label>
+      <input formControlName="title" matInput placeholder="Введите название" type="text"/>
+      @if (taskForm.controls.title.invalid && (taskForm.controls.title.touched || taskForm.controls.title.dirty)) {
+        <mat-error>
+          @if (taskForm.controls.title.hasError('required')) {
+            Название обязательно
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>
+        Описание задачи
+      </mat-label>
+      <input formControlName="description" matInput placeholder="Введите название" type="text"/>
+      @if (taskForm.controls.description.invalid && (taskForm.controls.description.touched || taskForm.controls.description.dirty)) {
+        <mat-error>
+          @if (taskForm.controls.description.hasError('required')) {
+            Описание обязательно
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Статус задачи</mat-label>
+      <mat-select formControlName="status" placeholder="Выберите статус">
+        @for (taskStatus of taskStatuses; track taskStatus.value) {
+          <mat-option [value]="taskStatus.value">{{ taskStatus.label }}</mat-option>
+        }
+      </mat-select>
+      @if (taskForm.controls.status.invalid && (taskForm.controls.status.touched || taskForm.controls.status.dirty)) {
+        <mat-error>
+          @if (taskForm.controls.status.hasError('required')) {
+            Статус обязателен
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Пользователь</mat-label>
+      <mat-select formControlName="userId" placeholder="Выберите пользователя">
+        <mat-option value="">Без пользователя</mat-option>
+        @for (user of users(); track user.id) {
+          <mat-option [value]="user.id">{{ `${user.name} (${user.email})` }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-dialog-actions>
+      <button [disabled]="!taskForm.valid" matButton="filled" type="submit">
+        Сохранить
+      </button>
+      <button mat-dialog-close matButton="outlined" type="button">
+        Отменить
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

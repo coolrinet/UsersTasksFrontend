@@ -1,1 +1,78 @@
-<p>tasks works!</p>
+<h1>Список задач</h1>
+
+<div class="container">
+  @if (isLoading()) {
+    <div class="center">
+      <mat-spinner/>
+    </div>
+  } @else {
+    <div class="mat-elevation-z2">
+      <table [dataSource]="tasks" aria-label="Таблица с задачами" class="full-width-table" mat-table>
+        <ng-container matColumnDef="title">
+          <th *matHeaderCellDef mat-header-cell>Название</th>
+          <td *matCellDef="let task" mat-cell>
+            {{ task.title }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th *matHeaderCellDef mat-header-cell>Описание</th>
+          <td *matCellDef="let task" mat-cell>
+            {{ task.description }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef mat-header-cell>Статус</th>
+          <td *matCellDef="let task" mat-cell>
+            {{ taskStatuses.find(t => t.value === task.status)!.label }}
+          </td>
+        </ng-container>
+
+        @if (withUsers()) {
+          <ng-container matColumnDef="user">
+            <th *matHeaderCellDef mat-header-cell>Пользователь</th>
+            <td *matCellDef="let task" mat-cell>
+              {{ `${task.user.name} (${task.user.email})` }}
+            </td>
+          </ng-container>
+        }
+
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell>Действия</th>
+          <td *matCellDef="let user" mat-cell>
+            <div class="actions-cell">
+              <button
+                (click)="onEditTaskClick(user)"
+                aria-label="Редактировать задачу"
+                matIconButton
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                (click)="onDeleteTaskClick(user.id)"
+                aria-label="Удалить задачу"
+                mat-icon-button
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      </table>
+    </div>
+  }
+
+  <div class="main-actions">
+    <mat-slide-toggle (change)="onFilterChange()" [checked]="withUsers()">Показать задачи, у которых есть пользователь
+    </mat-slide-toggle>
+
+    <button (click)="onCreateTaskClick()" [disabled]="isLoading()" class="add-button" matButton="filled">Добавить
+      задачу
+    </button>
+  </div>
+</div>

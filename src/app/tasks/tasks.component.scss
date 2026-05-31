@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+.add-button {
+  align-self: flex-end;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 10px;
+}
+
+[class*="mat-column-"] {
+  &:not(:last-child) {
+    border-right: 1px solid currentColor;
+  }
+}
+
+.main-actions {
+  display: flex;
+  justify-content: space-between;
+}
