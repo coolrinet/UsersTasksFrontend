@@ -18,6 +18,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { TaskStatus } from '../../enums/task-status';
 import { UserDTO } from '../../dtos/user-dto';
 import { UsersService } from '../users/users.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-task-dialog',
@@ -34,6 +35,7 @@ import { UsersService } from '../users/users.service';
     MatDialogClose,
     MatSelect,
     MatOption,
+    MatProgressSpinner,
   ],
   templateUrl: './task-dialog.html',
   styleUrl: './task-dialog.scss',
@@ -41,6 +43,7 @@ import { UsersService } from '../users/users.service';
 export class TaskDialog {
   data = inject<TaskDTO | null>(MAT_DIALOG_DATA);
   isEditing = !!this.data;
+  isFetching = signal(false);
   taskStatuses = [
     {
       value: TaskStatus.Todo,
@@ -75,7 +78,7 @@ export class TaskDialog {
   }
 
   onSubmit() {
-    console.log(this.taskForm.value);
+    this.isFetching.set(true);
 
     const payload = {
       ...this.taskForm.value,
@@ -88,9 +91,11 @@ export class TaskDialog {
           this.snackBar.open(e.error.message, '', {
             duration: 2000,
           });
+          this.isFetching.set(false);
         },
         complete: () => {
           this.dialogRef.close(true);
+          this.isFetching.set(false);
         },
       });
     } else {

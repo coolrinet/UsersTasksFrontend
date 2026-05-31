@@ -62,14 +62,19 @@
       </mat-select>
     </mat-form-field>
 
-
     <mat-dialog-actions>
-      <button [disabled]="!taskForm.valid" matButton="filled" type="submit">
+      <button [disabled]="!taskForm.valid || isFetching()" matButton="filled" type="submit">
         Сохранить
       </button>
-      <button mat-dialog-close matButton="outlined" type="button">
+      <button [disabled]="isFetching()" mat-dialog-close matButton="outlined" type="button">
         Отменить
       </button>
     </mat-dialog-actions>
   </form>
+
+  @if (isFetching()) {
+    <div class="loader">
+      <mat-spinner/>
+    </div>
+  }
 </mat-dialog-content>
