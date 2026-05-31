@@ -1,59 +1,109 @@
 # UsersTasksFrontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.13.
+Это Angular-приложение для управления пользователями и их задачами. Интерфейс построен с использованием Angular Material и поддерживает полный CRUD (создание, чтение, обновление, удаление) для пользователей и задач. Приложение взаимодействует с backend-сервисом для сохранения данных.
 
-## Development server
+---
 
-To start a local development server, run:
+## ✨ Функциональность
+
+### 👤 Управление пользователями
+
+* Отображение списка пользователей (имя и email)
+* Создание, редактирование и удаление пользователей через модальные окна
+* Фильтр: показ только пользователей без задач
+
+---
+
+### 📋 Управление задачами
+
+* Отображение списка задач (название, описание, статус: `Todo`, `In Progress`, `Done`)
+* Создание задач с возможностью привязки к пользователю
+* Редактирование задач, включая смену назначенного пользователя
+* Удаление задач
+* Фильтр: показ только задач, привязанных к пользователям
+
+---
+
+### 📱 Адаптивный интерфейс
+
+* Построен на Angular Material
+* Боковое навигационное меню (адаптивное для desktop и mobile)
+* Используются Material Table, Dialog, Buttons и Forms для консистентного UI
+
+---
+
+## 🧰 Стек технологий
+
+* **Фреймворк**: Angular
+* **UI**: Angular Material
+* **Язык**: TypeScript
+* **Стилизация**: SCSS
+* **Реактивность**: RxJS
+
+---
+
+## 🚀 Запуск проекта
+
+### Требования
+
+* Node.js и npm
+* Запущенный backend API
+
+---
+
+## 📦 Установка
+
+### 1. Клонирование репозитория
 
 ```bash
-ng serve
+git clone https://github.com/coolrinet/UsersTasksFrontend.git
+cd UsersTasksFrontend
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 2. Установка зависимостей
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
+
+### 3. Настройка API
+
+URL backend настраивается в environment-файлах.
+
+```ts
+// src/environments/environment.development.ts
+export const environment = {
+  production: false,
+  apiUrl: 'https://localhost:7097', // изменить при необходимости
+};
+```
+
+---
+
+## ▶️ Запуск приложения
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+После запуска приложение доступно по адресу:
 
-To build the project run:
-
-```bash
-ng build
+```
+http://localhost:4200/
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Изменения в коде автоматически пересобирают приложение (hot reload).
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## 📜 Скрипты
 
-```bash
-ng test
-```
+* `npm start` — запуск dev-сервера
+* `npm run build` — сборка production-версии в `dist/`
+* `npm run watch` — сборка в режиме наблюдения
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
