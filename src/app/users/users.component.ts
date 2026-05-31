@@ -14,8 +14,8 @@ import {
 } from '@angular/material/table';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { UserDTO } from '../../dtos/user-dto';
-import { finalize } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-users',
@@ -31,7 +31,9 @@ import { AsyncPipe } from '@angular/common';
     MatRowDef,
     MatTable,
     MatProgressSpinner,
-    AsyncPipe,
+    MatButton,
+    MatIconButton,
+    MatIcon,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
@@ -39,7 +41,23 @@ import { AsyncPipe } from '@angular/common';
 export class UsersComponent {
   private usersService = inject(UsersService);
 
-  displayedColumns: string[] = ['name', 'email'];
+  displayedColumns: string[] = ['name', 'email', 'actions'];
 
-  users$ = this.usersService.getAll();
+  isLoading = signal(false);
+
+  users: UserDTO[] = [];
+
+  ngOnInit() {
+    this.isLoading.set(true);
+
+    this.usersService.getAll().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
+    });
+  }
 }
